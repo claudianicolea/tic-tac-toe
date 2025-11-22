@@ -3,7 +3,6 @@
 let userSymbol = 'x', computerSymbol = 'o';
 let board = [];
 let userScore = 0, computerScore = 0;
-let gameInProgress = false;
 
 for (let i = 0; i < 9; i++) board.push('');
 
@@ -17,29 +16,70 @@ cells.forEach((cell, index) => {
     cell.addEventListener('click', () => {
         if (board[index] !== '') return;
 
-        gameInProgress = true;
         cell.innerText = userSymbol.toUpperCase();
         board[index] = userSymbol;
-        checkGameOver();
-        if (gameInProgress) computerMove();
+        if (!checkGameOver()) computerMove();
     })
 })
 
 // game functionality
 
 function computerMove() {
-    let randomPosition;
-    do {
-        randomPosition = Math.floor(Math.random() * 9); // random number 0-8
-    } while (board[randomPosition] !== '')
-    cells[randomPosition].innerText = computerSymbol.toUpperCase();
-    board[randomPosition] = computerSymbol;
+    let bestScore = -Infinity;
+    let bestMove = null;
+
+    for (let i = 0; i < 9; i++) {
+        if (board[i] === '') {
+            // simulate move
+            board[i] = computerSymbol;
+            let score = minimax(0, false);
+            board[i] = '';
+            if (score > bestScore) {
+                bestScore = score;
+                bestMove = i;
+            }
+        }
+    }
+
+    if (!bestMove) return;
+
+    board[bestMove] = computerSymbol;
+    cells[bestMove].innerText = computerSymbol.toUpperCase();
     checkGameOver();
 }
 
-function checkGameOver() {
-    gameInProgress = false;
+function minimax(depth, isMaximizing) {
+    if (checkWin(computerSymbol)) return 10 - depth;
+    if (checkWin(userSymbol)) return depth - 10;
+    if (checkDraw()) return 0;
 
+    if (isMaximizing) {
+        let bestScore = -Infinity;
+        for (let i = 0; i < 9; i++) {
+            if (board[i] === '') {
+                board[i] = computerSymbol;
+                let score = minimax(depth + 1, false);
+                board[i] = '';
+                bestScore = Math.max(score, bestScore);
+            }
+        }
+        return bestScore;
+    }
+    else {
+        let bestScore = Infinity;
+        for (let i = 0; i < 9; i++) {
+            if (board[i] === '') {
+                board[i] = userSymbol;
+                let score = minimax(depth + 1, true);
+                board[i] = '';
+                bestScore = Math.min(score, bestScore);
+            }
+        }
+        return bestScore;
+    }
+}
+
+function checkGameOver() {
     // the 50 milliseconds delay fixes problems with the last computer move and alert display
     if (checkWin(userSymbol)) {
         setTimeout(() => {
@@ -47,7 +87,7 @@ function checkGameOver() {
             userScore++;
             reset();
         }, 50);
-        return;
+        return true;
     }
     if (checkWin(computerSymbol)) {
         setTimeout(() => {
@@ -55,16 +95,16 @@ function checkGameOver() {
             computerScore++;
             reset();
         }, 50);
-        return;
+        return true;
     }
     if (checkDraw()) {
         setTimeout(() => {
             alert("There is a draw. Good game though.");
             reset();
         }, 50);
-        return;
+        return true;
     }
-    gameInProgress = true;
+    return false;
 }
 
 function checkWin(playerSymbol) {
@@ -80,11 +120,10 @@ function checkWin(playerSymbol) {
 }
 
 function checkDraw() {
-    let boardIsFull = true;
     for (let i = 0; i < 9; i++)
-        if (board[i] === '') boardIsFull = false;
+        if (board[i] === '') return false;
     
-    return !checkWin(userSymbol) && !checkWin(computerSymbol) && boardIsFull;
+    return !checkWin(userSymbol) && !checkWin(computerSymbol);
 }
 
 function reset() {
