@@ -41,8 +41,6 @@ function computerMove() {
         }
     }
 
-    if (!bestMove) return;
-
     board[bestMove] = computerSymbol;
     cells[bestMove].innerText = computerSymbol.toUpperCase();
     checkGameOver();
