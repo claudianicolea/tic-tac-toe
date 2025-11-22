@@ -1,49 +1,36 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <title>Tic Tac Toe</title>
-
-        <!-- css -->
         <link rel = "stylesheet" href = "styles.css">
     </head>
-
     <body>
-        <h1>Tic-Tac-Toe</h1>
-        <p>Hello! My name is Nicole Anton and this is my IB Personal Project.</p>
-        <p>I made this little game to practice my programming skills. Hope you enjoy!</p>
+        <!-- Header and title -->
+        <section>
+            <h1>Tic Tac Toe</h1>
+            <p>You (<span id = "userSymbol">X</span>): <span id = "userScore"></span></p>
+            <p>Computer (<span id = "computerSymbol">O</span>): <span id = "computerScore"></span></p>
+        </section>
 
-        <div class="game">
-            <div class="board">
-                <div class="square top left" tabindex="0">
-                    <div class=""></div></div>
-                <div class="square top" tabindex="0">
-                    <div class=""></div></div>
-                <div class="square top right" tabindex="0">
-                    <div class=""></div></div>
-                <div class="square left" tabindex="0">
-                    <div class=""></div></div>
-                <div class="square" tabindex="0">
-                    <div class=""></div></div>
-                <div class="square right" tabindex="0">
-                    <div class=""></div></div>
-                <div class="square bottom left" tabindex="0">
-                    <div class=""></div></div>
-                <div class="square bottom" tabindex="0">
-                    <div class=""></div></div>
-                <div class="square bottom right" tabindex="0">
-                    <div class=""></div></div>
+        <!-- Game board -->
+        <section>
+            <div class = "board">
+                <div class = "cell" id = "cell1"></div>
+                <div class = "cell" id = "cell2"></div>
+                <div class = "cell" id = "cell3"></div>
+
+                <div class = "cell" id = "cell4"></div>
+                <div class = "cell" id = "cell5"></div>
+                <div class = "cell" id = "cell6"></div>
+
+                <div class = "cell" id = "cell7"></div>
+                <div class = "cell" id = "cell8"></div>
+                <div class = "cell" id = "cell9"></div>
             </div>
-            <div class="restart" style="display: none;"></div>
-        </div>
-
-        <div class="scores p1">
-            <p class="player1"><span class="p1">Player</span><span class="p2">Player 1</span> (<span class="x"></span>)<span class="score">0</span></p>
-            <p class="ties">Tie<span class="score">0</span></p>
-            <p class="player2"><span class="p1">Computer</span><span class="p2">Player 2</span> (<span class="o"></span>)<span class="score">0</span></p>
-        </div>
-
-        <!-- javascript-->
+        </section>
+        
         <script src = "script.js"></script>
     </body>
 </html>
